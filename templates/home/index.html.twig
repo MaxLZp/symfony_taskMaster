@@ -1,0 +1,69 @@
+{# templates/home/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title }} - TaskMaster{% endblock %}
+
+{% block body %}
+    {# Hero Section #}
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 mb-4">{{ page_title }}</h1>
+            <p class="lead mb-4">Streamline your workflow, boost productivity, and collaborate seamlessly with your team.</p>
+            <a href="{{ path('app_dashboard') }}" class="btn btn-light btn-lg me-3">Get Started</a>
+            <a href="{{ path('app_features') }}" class="btn btn-outline-light btn-lg">Learn More</a>
+        </div>
+    </section>
+
+    {# Features Preview #}
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Why Choose TaskMaster?</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-tasks fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="card-title">Smart Task Management</h5>
+                            <p class="card-text">Organize tasks with priorities, due dates, and dependencies. Never miss a deadline again.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-users fa-3x text-success"></i>
+                            </div>
+                            <h5 class="card-title">Team Collaboration</h5>
+                            <p class="card-text">Work seamlessly with your team. Assign tasks, share projects, and communicate effectively.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-chart-line fa-3x text-warning"></i>
+                            </div>
+                            <h5 class="card-title">Insights & Analytics</h5>
+                            <p class="card-text">Track productivity, analyze performance, and make data-driven decisions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# Call to Action #}
+    <section class="bg-light py-5">
+        <div class="container text-center">
+            <h2 class="mb-4">Ready to Get Organized?</h2>
+            <p class="lead mb-4">Join thousands of teams already using TaskMaster to achieve their goals.</p>
+            <a href="{{ path('app_dashboard') }}" class="btn btn-primary btn-lg">Start Your Free Trial</a>
+        </div>
+    </section>
+{% endblock %}
