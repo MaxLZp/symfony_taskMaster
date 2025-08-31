@@ -1,0 +1,46 @@
+version: "3.7"
+services:
+
+  app:
+    build:
+      args:
+        user: user
+        uid: 1000
+      context: ./docker-compose
+      dockerfile: php.Dockerfile
+    image: taqskmaster_docker
+    container_name: taskmaster_docker_app
+    restart: always
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/_logs:/var/log
+    networks:
+      - taskmaster_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: taskmaster_docker_nginx
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+      - ./docker-compose/_logs/nginx:/var/log/nginx
+    networks:
+      - taskmaster_network
+
+  composer:
+    container_name: taskmaster_docker_composer
+    build:
+      context: docker-compose
+      dockerfile: composer.Dockerfile
+    volumes:
+      - ./:/var/www
+    networks:
+      - taskmaster_network
+
+networks:
+  taskmaster_network:
+    driver: bridge
