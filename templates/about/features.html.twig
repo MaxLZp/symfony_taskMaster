@@ -1,7 +1,27 @@
+{# templates/about/features.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Features{% endblock %}
+{% block title %}Features - TaskMaster{% endblock %}
 
 {% block body %}
-<h1>Features</h1>
+<div class="container py-5">
+    <h1 class="text-center mb-5">TaskMaster Features</h1>
+    
+    <div class="row">
+        {% for feature_name, description in features %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ feature_name }}</h5>
+                        <p class="card-text">{{ description }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div class="text-center mt-4">
+        <a href="{{ path('app_dashboard') }}" class="btn btn-success btn-lg">Try It Now</a>
+    </div>
+</div>
 {% endblock %}
