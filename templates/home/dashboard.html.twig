@@ -1,7 +1,81 @@
+{# templates/home/dashboard.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %} Dashboard {% endblock %}
+{% block title %}Dashboard - TaskMaster{% endblock %}
 
 {% block body %}
-Dashboard
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Welcome back, {{ user_name }}!</h1>
+        <div>
+            <button class="btn btn-primary">+ New Task</button>
+            <button class="btn btn-outline-primary">+ New Project</button>
+        </div>
+    </div>
+    
+    {# Quick Stats (Placeholder) #}
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h2 class="text-primary">12</h2>
+                    <p class="card-text">Active Tasks</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h2 class="text-success">8</h2>
+                    <p class="card-text">Completed Today</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h2 class="text-warning">3</h2>
+                    <p class="card-text">Due Soon</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h2 class="text-info">5</h2>
+                    <p class="card-text">Projects</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Recent Tasks</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Your tasks will appear here once you start creating them!</p>
+                    <p>Coming in Week 3 when we add database functionality.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary">Create Task</button>
+                        <button class="btn btn-outline-success">New Project</button>
+                        <button class="btn btn-outline-info">View Calendar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

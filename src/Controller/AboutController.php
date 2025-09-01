@@ -27,6 +27,8 @@ final class AboutController extends AbstractController
             'Time Tracking' => 'Monitor time spent on tasks and projects'
         ];
         
-        return $this->render('about/features.html.twig', $features);
+        return $this->render('about/features.html.twig', [
+            'features' => $features
+        ]);
     }
 }
