@@ -40,7 +40,7 @@ class Project
 
 
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Task::class, orphanRemoval: true)]
-    private ArrayCollection $tasks;
+    private Collection $tasks;
 
     public function __construct()
     {

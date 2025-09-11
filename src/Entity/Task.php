@@ -121,7 +121,7 @@ class Task
         return $this->dueDate;
     }
 
-    public function setDueDate(?\DateTime $dueDate): static
+    public function setDueDate(?\DateTimeImmutable $dueDate): static
     {
         $this->dueDate = $dueDate;
 
