@@ -26,4 +26,22 @@ final class TestController extends AbstractController
         
         return new Response(sprintf('Project: %1$s, Tasks: %2$d', $project->getName(), $project->getTotalTasksCount()));
     }
+
+    #[Route('test/repositories', name:'app_test_repositories', methods: ['GET'])]
+    public function testRepository(EntityManagerInterface $em): Response
+    {
+        $projectRepo = $em->getRepository(Project::class);
+        $taskRepo = $em->getRepository(Task::class);
+        
+        // Test methods
+        $activeProjects = $projectRepo->findActiveProjects();
+        $overdueTasks = $taskRepo->findOverdueTasks();
+        $taskStats = $taskRepo->getTaskStatistics();
+        
+        return $this->json([
+            'active_projects_count' => count($activeProjects),
+            'overdue_tasks_count' => count($overdueTasks),
+            'task_statistics' => $taskStats
+        ]);
+    }
 }
