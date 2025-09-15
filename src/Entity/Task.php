@@ -116,7 +116,7 @@ class Task
         return $this;
     }
 
-    public function getDueDate(): ?\DateTime
+    public function getDueDate(): ?\DateTimeImmutable
     {
         return $this->dueDate;
     }
@@ -133,6 +133,7 @@ class Task
         return $this->createdAt;
     }
 
+    #[ORM\PrePersist]
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
@@ -145,6 +146,7 @@ class Task
         return $this->updatedAt;
     }
 
+    #[ORM\PreUpdate]
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
@@ -165,7 +167,7 @@ class Task
 
     public function isCompleted(): bool
     {
-        return $this->getStatus() ==+ Task::STATUS_COMPLETED;
+        return $this->getStatus() === Task::STATUS_COMPLETED;
     }
 
     public function isOverdue(): bool
@@ -199,6 +201,18 @@ class Task
             self::PRIORITY_HIGH => 'danger',
             self::PRIORITY_CRITICAL => 'dark',
             default => 'secondary'
+        };
+    }
+
+
+    public function getStatusLabel(): string
+    {
+        return match($this->priority) {
+            self::PRIORITY_LOW => 'Low',
+            self::PRIORITY_MEDIUM => 'Medium',
+            self::PRIORITY_HIGH => 'High',
+            self::PRIORITY_CRITICAL => 'Critical',
+            default => 'Unknown'
         };
     }
 
