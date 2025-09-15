@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+DB Test
+{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Database Test Page</h1>
+        <a href="{{ path('app_test_create') }}" class="btn btn-success">+ Create Sample Data</a>
+    </div>
+
+    {# Task Statistics #}
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-primary">{{ task_stats.total }}</h3>
+                    <p>Total Tasks</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-success">{{ task_stats.completed }}</h3>
+                    <p>Completed</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-warning">{{ task_stats.inProgress }}</h3>
+                    <p>In Progress</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-danger">{{ task_stats.overdue }}</h3>
+                    <p>Overdue</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {# Projects List #}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Projects ({{ projects|length }})</h5>
+                </div>
+                <div class="card-body">
+                    {% if projects is empty %}
+                        <p class="text-muted">No projects found. Load fixtures first!</p>
+                    {% else %}
+                        {% for project in projects %}
+                            <div class="border-bottom pb-2 mb-2">
+                                <h6>{{ project.name }}</h6>
+                                <small class="text-muted">
+                                    Created: {{ project.createdAt|date('M j, Y') }} | 
+                                    Tasks: {{ project.tasks|length }} |
+                                    Status: <span class="badge bg-{{ project.status == 'active' ? 'success' : 'secondary' }}">{{ project.status|title }}</span>
+                                </small>
+                                {% if project.description %}
+                                    <p class="small mt-1">{{ project.description|slice(0, 100) }}{% if project.description|length > 100 %}...{% endif %}</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {# Tasks List #}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Recent Tasks ({{ tasks|length }})</h5>
+                </div>
+                <div class="card-body">
+                    {% if tasks is empty %}
+                        <p class="text-muted">No tasks found. Load fixtures first!</p>
+                    {% else %}
+                        {% for task in tasks|slice(0, 10) %}
+                            <div class="border-bottom pb-2 mb-2">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">{{ task.title }}</h6>
+                                        <small class="text-muted">{{ task.project.name }}</small>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-{{ task.priorityColor }}">{{ task.priorityLabel }}</span>
+                                        <br>
+                                        <span class="badge bg-{{ task.statusColor }}">{{ task.statusLabel }}</span>
+                                    </div>
+                                </div>
+                                {% if task.dueDate %}
+                                    <small class="text-muted d-block mt-1">
+                                        Due: {{ task.dueDate|date('M j, Y') }}
+                                        {% if task.isOverdue %}
+                                            <span class="text-danger">(Overdue)</span>
+                                        {% endif %}
+                                    </small>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Overdue Tasks Alert #}
+    {% if overdue_tasks is not empty %}
+        <div class="alert alert-warning mt-4">
+            <h5>⚠️ Overdue Tasks ({{ overdue_tasks|length }})</h5>
+            <ul class="mb-0">
+                {% for task in overdue_tasks|slice(0, 5) %}
+                    <li>{{ task.title }} - Due {{ task.dueDate|date('M j, Y') }}</li>
+                {% endfor %}
+                {% if overdue_tasks|length > 5 %}
+                    <li><em>... and {{ overdue_tasks|length - 5 }} more</em></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
