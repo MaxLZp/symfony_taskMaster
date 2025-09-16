@@ -77,4 +77,16 @@ class ProjectRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findProjectsByStatusWithTaskCount(string $status): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select(['p', 'COUNT(t.id) as tasksCount'])
+            ->andWhere('p.status = :status')
+            ->setParameter('status', $status)
+            ->groupBy('p.id')
+            ->leftJoin('p.tasks', 't')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -42,6 +42,9 @@ class Project
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Task::class, orphanRemoval: true)]
     private Collection $tasks;
 
+    #[ORM\ManyToOne(inversedBy: 'projects')]
+    private ?Category $category = null;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -154,5 +157,17 @@ class Project
     public function __toString(): string
     {
         return $this->name ?? '';
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
+
+        return $this;
     }
 }

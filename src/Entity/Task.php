@@ -44,7 +44,11 @@ class Task
     #[Assert\Choice(choices: [self::PRIORITY_LOW, self::PRIORITY_MEDIUM, self::PRIORITY_HIGH, self::PRIORITY_CRITICAL])]
     private ?string $priority = self::PRIORITY_MEDIUM;
 
+    #[Assert\Range(min:1, max:10, notInRangeMessage:'Estimated hours must be between {{ min }} and {{ max }}')]
+    private ?int $estimatedHours = null;
+
     #[ORM\Column(nullable: true)]
+    #[Assert\GreaterThan('today', message:'Due date must be in the future')]
     private ?\DateTimeImmutable $dueDate = null;
 
     #[ORM\Column]
@@ -55,7 +59,7 @@ class Task
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     #[ORM\JoinColumn('nullable')]
-    #[Assert\NotNull(message: 'Task must belog to a project')]
+    #[Assert\NotNull(message: 'Task must belong to a project')]
     private ?Project $project = null;
 
     public function __construct()
@@ -134,9 +138,11 @@ class Task
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(): static
     {
-        $this->createdAt = $createdAt;
+        if ($this->createdAt == null){
+            $this->createdAt = new \DateTimeImmutable();
+        } 
 
         return $this;
     }
@@ -147,9 +153,9 @@ class Task
     }
 
     #[ORM\PreUpdate]
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(): static
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new \DateTimeImmutable();
 
         return $this;
     }
@@ -230,5 +236,17 @@ class Task
     public function __toString(): string
     {
         return $this->title ?? '';
+    }
+
+    public function getEstimatedHours(): ?int
+    {
+        return $this->estimatedHours;
+    }
+
+    public function setEstimatedHours(?int $estimatedHours): self
+    {
+        $this->estimatedHours = $estimatedHours;
+
+        return $this;
     }
 }
