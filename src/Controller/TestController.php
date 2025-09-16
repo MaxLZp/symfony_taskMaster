@@ -55,6 +55,10 @@ final class TestController extends AbstractController
         $overdueTasks = $taskRepo->findOverdueTasks();
         $taskStats = $taskRepo->getTaskStatistics();
 
+        $tasksDueInAWeek = $taskRepo->findTasksDueInThisWeek();
+        $completedTasks = $taskRepo->findTasksByStatus(Task::STATUS_COMPLETED);
+        $activeProjects = $projectRepo->findProjectsByStatusWithTaskCount('active');
+
         return $this->render('test/db_test.html.twig', [
             'projects' => $projects,
             'tasks' => $tasks,

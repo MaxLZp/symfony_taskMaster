@@ -48,7 +48,7 @@ class TaskRepository extends ServiceEntityRepository
             ->andWhere('t.status != :completed')
             ->setParameter('now', $futureDate)
             ->setParameter('completed', Task::STATUS_COMPLETED)
-            ->orderBy('t.createdDate', 'DESC')
+            ->orderBy('t.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -69,5 +69,26 @@ class TaskRepository extends ServiceEntityRepository
             ->setParameter('now', new \DateTimeImmutable())
             ->getQuery()
             ->getSingleResult();
+    }
+
+    public function findTasksByStatus(string $status): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.status = :status')
+            ->setParameter('status', $status)
+            ->orderBy('t.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findTasksDueInThisWeek(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.dueDate > :now')
+            ->andWhere('t.dueDate < :week')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->setParameter('week', new \DateTimeImmutable('+1 week'))
+            ->getQuery()
+            ->getResult();
     }
 }
